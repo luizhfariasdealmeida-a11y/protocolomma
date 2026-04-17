@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocolo de Treinamento MMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E24B4A;
+      --red-dark: #A32D2D;
+      --red-light: #FCEBEB;
+      --gold: #EF9F27;
+      --gold-dark: #854F0B;
+      --gold-light: #FAEEDA;
+      --bg: #ffffff;
+      --bg-secondary: #F1EFE8;
+      --text: #1a1a1a;
+      --text-muted: #5F5E5A;
+      --border: rgba(0,0,0,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg-secondary);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .hero {
+      display: flex;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 3px solid var(--red);
+      padding-bottom: 1rem;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 62px;
+      letter-spacing: 2px;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .arts-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .art-pill {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid var(--border);
+      color: var(--text-muted);
+      background: var(--bg);
+    }
+
+    .art-pill.active, .art-pill:hover {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+    }
+
+    .section-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--bg-secondary);
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .section-header:hover { background: #e5e3db; }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: var(--red-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: var(--red-dark);
+      flex: 1;
+    }
+
+    .chevron {
+      font-size: 11px;
+      color: var(--text-muted);
+      transition: transform 0.25s;
+    }
+
+    .chevron.open { transform: rotate(90deg); }
+
+    .section-body {
+      display: none;
+      padding: 16px 18px;
+    }
+
+    .section-body.open { display: block; }
+
+    .exercise-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .exercise-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .ex-num {
+      min-width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: var(--gold-light);
+      color: var(--gold-dark);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .note-box {
+      background: var(--red-light);
+      border-left: 3px solid var(--red);
+      border-radius: 0 6px 6px 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--red-dark);
+      line-height: 1.6;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div>
+      <p class="hero-sub">Método de treinamento</p>
+      <h1 class="hero-title">MMA</h1>
+    </div>
+  </div>
+
+  <div class="arts-bar">
+    <div class="art-pill active" onclick="filterArt('boxe', this)">Boxe</div>
+    <div class="art-pill" onclick="filterArt('jiu', this)">Jiu-jitsu</div>
+    <div class="art-pill" onclick="filterArt('wrestling', this)">Wrestling</div>
+    <div class="art-pill" onclick="filterArt('sanda', this)">Sanda / Muay thai</div>
+  </div>
+
+  <!-- BOXE -->
+  <div id="boxe-content">
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">💪</div>
+        <span class="section-label">Parte física</span>
+        <span class="chevron open">▶</span>
+      </div>
+      <div class="section-body open">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Polichinelo — 60 repetições</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Flexão — 2 × 12</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Flexão explosiva (tirando a mão do chão) — 2 × 12</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Salto de joelhos com sequência de jab e direto — 2 × 10</li>
+          <li class="exercise-item"><span class="ex-num">5</span> Salto de joelhos com pulo — 2 × 10</li>
+          <li class="exercise-item"><span class="ex-num">6</span> Abdominal com rotação do tronco — 3 × 15</li>
+          <li class="exercise-item"><span class="ex-num">7</span> Prancha — 60 segundos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">👤</div>
+        <span class="section-label">Sombra</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Sessão de 3 minutos com finalidade de aquecer o corpo, aprimorar a técnica, a coordenação e a resistência.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">👣</div>
+        <span class="section-label">Footwork</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Pisada alternando os pés em ponto central com jab e direto curtos</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Mudança de direção do corpo alternando os pés em ponto central</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Deslocamento lateral alternando os pés, guarda fechada — 1 × 30</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Deslocamento lateral alternando os pés com cruzado baixo</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">🥊</div>
+        <span class="section-label">Manopla</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Combinações decididas em conjunto para ir além do padrão do protocolo. Liberdade criativa guiada pelo instrutor.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">⚔️</div>
+        <span class="section-label">Sparring</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">A arte marcial aplicada no sparring segue a arte praticada no dia.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JIU-JITSU -->
+  <div id="jiu-content" class="hidden">
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">💪</div>
+        <span class="section-label">Parte física</span>
+        <span class="chevron open">▶</span>
+      </div>
+      <div class="section-body open">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Rolamento para frente e para trás — 3 × 10</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Rolamento lateral (shoulder roll) — 3 × 8 cada lado</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Bridge e hip escape (shrimping) — 2 × 10 metros</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Flexão em base de luta (wrestler's push-up) — 2 × 10</li>
+          <li class="exercise-item"><span class="ex-num">5</span> Abdominal com rotação para simulação de guarda — 3 × 12</li>
+          <li class="exercise-item"><span class="ex-num">6</span> Prancha lateral — 45 segundos cada lado</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">👤</div>
+        <span class="section-label">Sombra técnica</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">3 minutos de movimentação solo simulando trocas de posição — guard pull, passagem de guarda, inversão. Foco em fluidez e memória muscular.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">🔁</div>
+        <span class="section-label">Movimentação de base</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Hip escape contínuo — 2 × 10 metros</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Bridge com rotação para turtle — 2 × 8</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Recuperação de guarda a partir do half guard — 2 × 8</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Passagem de guarda toreando (sem parceiro) — 2 × 10</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">🤼</div>
+        <span class="section-label">Drilling técnico</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Repetições cooperativas com parceiro de sequências definidas pelo instrutor — finalizações, raspagens ou passagens. Sem resistência, foco em repetição limpa.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">⚔️</div>
+        <span class="section-label">Sparring / Rolamento</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Rounds de rolamento com intensidade progressiva. Pode ser posicional (saindo de uma posição definida) ou livre. A arte marcial aplicada segue a praticada no dia.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WRESTLING -->
+  <div id="wrestling-content" class="hidden">
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">💪</div>
+        <span class="section-label">Parte física</span>
+        <span class="chevron open">▶</span>
+      </div>
+      <div class="section-body open">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Agachamento com salto — 3 × 10</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Avanço explosivo (sprawl drill) — 2 × 10</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Flexão com explosão + posição de clinch — 2 × 8</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Shot simulation (penetration step) sem parceiro — 3 × 10</li>
+          <li class="exercise-item"><span class="ex-num">5</span> Elevação de quadril em ponte — 3 × 12</li>
+          <li class="exercise-item"><span class="ex-num">6</span> Prancha dinâmica com deslocamento lateral — 2 × 30 segundos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">👤</div>
+        <span class="section-label">Sombra</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">3 minutos de movimentação solo com foco em entradas de queda — level change, penetration step, circling. Simular pressão e reposicionamento sem parceiro.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">👣</div>
+        <span class="section-label">Footwork e entradas</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Level change com passo de penetração — 3 × 8 cada lado</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Sprawl com recuperação imediata de pé — 2 × 10</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Circling com mudança de nível — 1 × 30 segundos contínuos</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Entrada de double leg sem finalização (só a entrada) — 3 × 8</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">🤼</div>
+        <span class="section-label">Drilling com parceiro</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Repetições de entradas e finalizações de queda combinadas com o instrutor — single leg, double leg, suplex, body lock. Sem resistência total, foco em timing e mecânica.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">⚔️</div>
+        <span class="section-label">Sparring</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Pode ser puro (queda = ponto, retorna em pé) ou integrado com jiu-jitsu/MMA. A arte marcial aplicada segue a praticada no dia.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SANDA / MUAY THAI -->
+  <div id="sanda-content" class="hidden">
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">💪</div>
+        <span class="section-label">Parte física</span>
+        <span class="chevron open">▶</span>
+      </div>
+      <div class="section-body open">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Polichinelo — 60 repetições</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Agachamento com chute alto simulado — 2 × 10 cada lado</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Flexão com explosão — 2 × 10</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Knee strike no ar com avanço — 2 × 10 cada lado</li>
+          <li class="exercise-item"><span class="ex-num">5</span> Abdominal oblíquo com rotação de quadril — 3 × 12</li>
+          <li class="exercise-item"><span class="ex-num">6</span> Prancha — 60 segundos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">👤</div>
+        <span class="section-label">Sombra</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">3 minutos de sombra integrando socos, chutes, joelhadas e cotoveladas. Foco em ritmo, coordenação e geração de força pelo quadril.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">👣</div>
+        <span class="section-label">Footwork e distância</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <ul class="exercise-list">
+          <li class="exercise-item"><span class="ex-num">1</span> Deslocamento com step e chute baixo — 1 × 20 cada lado</li>
+          <li class="exercise-item"><span class="ex-num">2</span> Avanço com joelhada e recuo — 2 × 10</li>
+          <li class="exercise-item"><span class="ex-num">3</span> Pivô + chute cruzado — 2 × 10 cada lado</li>
+          <li class="exercise-item"><span class="ex-num">4</span> Entrada de clinch com joelhada — 2 × 8</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">🥊</div>
+        <span class="section-label">Manopla / Pads</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Combinações com thai pads ou manopla integrando socos, chutes e joelhadas. Combinações definidas junto ao instrutor, incluindo entradas de clinch quando aplicável.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-icon">⚔️</div>
+        <span class="section-label">Sparring</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="section-body">
+        <div class="note-box">Sparring técnico priorizando distância e timing de chutes e joelhadas. No Sanda, pode incluir projeções. A arte marcial aplicada segue a praticada no dia.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+
+  function filterArt(art, el) {
+    document.querySelectorAll('.art-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    ['boxe', 'jiu', 'wrestling', 'sanda'].forEach(id => {
+      const div = document.getElementById(id + '-content');
+      if (div) div.classList.toggle('hidden', id !== art);
+    });
+  }
+</script>
+
+</body>
+</html>
